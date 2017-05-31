@@ -8,6 +8,8 @@ class Login extends Component {
     super(props);
   }
 
+  // render
+
   render() {
     return (
       <div className="login-box">
