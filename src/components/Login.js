@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
+// const queryString = require('query-string');
+
 // import history from './history'
 
 import '../css/login.css';
@@ -7,7 +10,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      msg: ''
+      msg: queryString.parse(this.props.location.search).msg
     }
   }
 
