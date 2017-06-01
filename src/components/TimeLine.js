@@ -8,7 +8,8 @@ class TimeLine extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/api/public/fotos/vitor')
+    // fetch('http://localhost:8080/api/public/fotos/vitor')
+    fetch(`http://localhost:8080/api/fotos?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`)
       .then(resove => resove.json())
       .then(fotos => this.setState({ fotos: fotos }));
   }

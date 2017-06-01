@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import history from './components/history';
 
 import './css/reset.css';
 
@@ -12,7 +13,7 @@ import registerServiceWorker from './registerServiceWorker';
 const routers = (
   <App>
     <Switch>
-      <Route exact path='/' component={Login} />
+      <Route exact path='/' component={Login} history={history} />
       <Route exact path='/timeline' component={TimeLine} />
     </Switch>
   </App>
