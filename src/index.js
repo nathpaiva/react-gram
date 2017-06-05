@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import history from './components/history';
 
 import './css/reset.css';
@@ -18,7 +18,7 @@ const routers = (
     <Switch>
       <Route exact path='/' component={Login} history={history} />
       <Route exact path='/logout' component={Logout} history={history} />
-      <Authenticated exact path="/timeline" component={TimeLine} history={history} />
+      <Authenticated exact path="/timeline/:login?" component={TimeLine} history={history} login="" />
     </Switch>
   </App>
 );
