@@ -6,7 +6,7 @@ class FotoAtualizacoes extends Component {
 
   likar(e) {
     e.preventDefault();
-    this.props.likar(this.props.foto.id);
+    this.props.like(this.props.foto.id);
   }
 
   saveComment(e) {

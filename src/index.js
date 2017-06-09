@@ -13,12 +13,14 @@ import Logout from './components/Logout';
 import TimeLine from './components/TimeLine';
 import registerServiceWorker from './registerServiceWorker';
 
+
 const routers = (
   <App>
     <Switch>
       <Route exact path='/' component={Login} history={history} />
       <Route exact path='/logout' component={Logout} history={history} />
-      <Authenticated exact path="/timeline/:login?" component={TimeLine} history={history} login="" />
+      <Authenticated exact path='/timeline' component={TimeLine} history={history} />
+      <Route exact path="/timeline/:login" component={TimeLine} history={history} />
     </Switch>
   </App>
 );
