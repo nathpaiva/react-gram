@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Pubsub from 'pubsub-js';
 
 class FotoAtualizacoes extends Component {
 
@@ -33,7 +32,6 @@ class FotoInfo extends Component {
   constructor(props) {
     super(props);
     this.state = { likers: this.props.foto.likers, comments: this.props.foto.comentarios };
-    console.log('this.props.foto.comentarios', this.props.foto.comentarios);
   }
 
   render() {

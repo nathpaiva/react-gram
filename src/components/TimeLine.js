@@ -1,41 +1,46 @@
+// Dependencies
 import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
-import TimeLineLogica from '../stores/TimeLineLogica';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { timeline } from '../reducers/timeline';
 
+// API
+import TimeLineApi from '../stores/TimeLineApi';
+
+// Components
 import Header from './Header';
 import FotoItem from './FotoItem';
+
+const store = createStore(timeline, applyMiddleware(thunkMiddleware));
 
 class TimeLine extends Component {
   constructor(props) {
     super(props);
     this.state = { fotos: [] };
-
-    this.TimeLineLogica = new TimeLineLogica([]);
   }
 
   LoadFotos() {
-    console.log(this.props)
     const { login } = this.props.match.params;
 
     let url;
     if (login === undefined && localStorage.getItem('auth-token')) {
       url = `http://localhost:8080/api/fotos?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`;
-    }
-    else if (login === undefined && !localStorage.getItem('auth-token')) {
+    } else if (login === undefined && !localStorage.getItem('auth-token')) {
       this.props.history.replace('/?msg=Você precisa estar logado para acessar este endereço');
-    }
-    else {
+    } else {
       url = `http://localhost:8080/api/public/fotos/${login}`;
     }
-    this.TimeLineLogica.loadFotos(url);
+
+    store.dispatch(TimeLineApi.loadFotos(url));
   }
 
   like(fotoId) {
-    this.TimeLineLogica.like(fotoId)
+    store.dispatch(TimeLineApi.like(fotoId));
   }
 
   saveComment(comment, fotoId) {
-    this.TimeLineLogica.saveComment(comment, fotoId);
+    store.dispatch(TimeLineApi.saveComment(comment, fotoId));
   }
 
   componentDidMount() {
@@ -44,8 +49,8 @@ class TimeLine extends Component {
 
 
   componentWillMount() {
-    this.TimeLineLogica.subscribe(fotos => {
-      this.setState({ fotos });
+    store.subscribe(() => {
+      this.setState({ fotos: store.getState() });
     });
   }
 
