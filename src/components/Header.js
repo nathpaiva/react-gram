@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
-import PubSub from 'pubsub-js';
+
+import TimeLineApi from '../stores/TimeLineApi';
 
 class Header extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = { msg: '' };
+  }
+
   search(e) {
     e.preventDefault();
+    this.props.store.dispatch(TimeLineApi.searchUser(this.searchInput.value));
+    this.searchInput.value = '';
+  }
 
-    fetch(`http://localhost:8080/api/public/fotos/${this.searchInput.value}`)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return [];
-        }
-      })
-      .then(fotos => {
-        PubSub.publish('timeline', fotos);
-      });
+  componentWillMount() {
+    this.props.store.subscribe(() => {
+      this.setState({ msg: this.props.store.getState().notification });
+    });
   }
 
   render() {
@@ -34,6 +36,7 @@ class Header extends Component {
         <nav>
           <ul className="header-nav">
             <li className="header-nav-item">
+              <span> {this.state.msg} </span>
               <a href="">
                 ♡
               </a>

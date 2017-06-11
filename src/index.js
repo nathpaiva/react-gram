@@ -10,7 +10,8 @@ import Authenticated from './components/Authenticated'
 
 import Login from './components/Login';
 import Logout from './components/Logout';
-import TimeLine from './components/TimeLine';
+import ContainerApp from './components/ContainerApp';
+// import TimeLine from './components/TimeLine';
 import registerServiceWorker from './registerServiceWorker';
 
 
@@ -19,8 +20,8 @@ const routers = (
     <Switch>
       <Route exact path='/' component={Login} history={history} />
       <Route exact path='/logout' component={Logout} history={history} />
-      <Authenticated exact path='/timeline' component={TimeLine} history={history} />
-      <Route exact path="/timeline/:login" component={TimeLine} history={history} />
+      <Authenticated exact path='/timeline' component={ContainerApp} history={history} />
+      <Route exact path="/timeline/:login" component={ContainerApp} history={history} />
     </Switch>
   </App>
 );

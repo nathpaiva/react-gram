@@ -54,7 +54,7 @@ class FotoInfo extends Component {
           {
             this.props.foto.comentarios.map((comment, i) => {
               return (
-                <li key={i} className="comentario" >
+                <li key={`${comment.login}${i}`} className="comentario" >
                   <Link to={`/timeline/${comment.login}`} className="foto-info-autor">{comment.login} </Link> {comment.texto}
                 </li>
               );
