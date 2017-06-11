@@ -18,18 +18,18 @@ class TimeLine extends Component {
   constructor(props) {
     super(props);
     this.state = { fotos: [] };
+    const { login } = this.props.match.params;
+    this.login = login;
   }
 
   LoadFotos() {
-    const { login } = this.props.match.params;
-
     let url;
-    if (login === undefined && localStorage.getItem('auth-token')) {
+    if (this.login === undefined && localStorage.getItem('auth-token')) {
       url = `http://localhost:8080/api/fotos?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`;
-    } else if (login === undefined && !localStorage.getItem('auth-token')) {
+    } else if (this.login === undefined && !localStorage.getItem('auth-token')) {
       this.props.history.replace('/?msg=Você precisa estar logado para acessar este endereço');
     } else {
-      url = `http://localhost:8080/api/public/fotos/${login}`;
+      url = `http://localhost:8080/api/public/fotos/${this.login}`;
     }
 
     store.dispatch(TimeLineApi.loadFotos(url));
@@ -55,7 +55,7 @@ class TimeLine extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps !== undefined) {
+    if (nextProps.match.params.login !== this.login) {
       this.login = nextProps.match.params.login;
       this.LoadFotos();
     }
