@@ -42,11 +42,6 @@ export function timeline(state = new List(), action) {
       }
       return { likeada, likers: newLikers };
     });
-
-
-
-    return state;
-
   }
 
   return state;
