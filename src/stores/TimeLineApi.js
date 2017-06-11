@@ -1,10 +1,12 @@
+import { loadFotos, like, newComment, notification } from '../actions/actionCreator';
+
 class TimeLineApi {
   static loadFotos(url) {
     return dispatch => {
       fetch(url)
         .then(resove => resove.json())
         .then(fotos => {
-          dispatch({ type: 'LOADFOTOS', fotos });
+          dispatch(loadFotos(fotos));
           return fotos;
         });
     }
@@ -21,7 +23,7 @@ class TimeLineApi {
           }
         })
         .then(liker => {
-          dispatch({ type: 'LIKE', liker, fotoId })
+          dispatch(like(liker, fotoId));
           return liker;
         });
     }
@@ -45,12 +47,34 @@ class TimeLineApi {
           }
         })
         .then(comment => {
-          dispatch({ type: 'COMMENT', comment, fotoId });
+          dispatch(newComment(comment, fotoId));
           return comment;
         })
         .catch(err => {
           console.log('err', err);
         })
+    }
+  }
+
+  static searchUser(login) {
+    return dispatch => {
+      fetch(`http://localhost:8080/api/public/fotos/${login}`)
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return [];
+          }
+        })
+        .then(fotos => {
+          if (fotos.length === 0) {
+            dispatch(notification('usuário não encontrado'));
+          } else {
+            dispatch(notification('usuário encontrado'));
+            dispatch(loadFotos(fotos));
+          }
+          return fotos;
+        });
     }
   }
 }

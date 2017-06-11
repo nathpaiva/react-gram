@@ -2,12 +2,10 @@ import { List } from 'immutable';
 
 function _changeFoto(list, fotoId, callbackProperties) {
   const oldStateFoto = list.find(foto => foto.id === fotoId);
-
   const newProperties = callbackProperties(oldStateFoto);
-
   const newStateFoto = Object.assign({}, oldStateFoto, newProperties);
-
   const indiceList = list.findIndex(foto => foto.id === fotoId);
+
   return list.set(indiceList, newStateFoto);
 }
 
