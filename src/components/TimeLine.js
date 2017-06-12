@@ -12,7 +12,7 @@ class TimeLine extends Component {
   constructor(props) {
     super(props);
     this.login = this.props.login;
-    this.state = { fotos: [], msg: '' };
+    this.state = { fotos: [] };
   }
 
   LoadFotos() {
