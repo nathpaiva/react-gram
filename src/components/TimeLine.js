@@ -51,7 +51,7 @@ class TimeLine extends Component {
             transitionLeaveTimeout={300}>
             {
               this.props.fotos.map((foto, i) =>
-                <FotoItem key={i} foto={foto} like={this.props.like} saveComment={this.props.comenta} />
+                <FotoItem key={i} foto={foto} like={this.props.like} saveComment={this.props.saveComment} />
               )
             }
           </ReactCSSTransitionGroup>
@@ -71,7 +71,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(TimeLineApi.like(fotoId));
     },
     saveComment: (fotoId, textoComentario) => {
-      dispatch(TimeLineApi.comenta(fotoId, textoComentario))
+      dispatch(TimeLineApi.saveComment(fotoId, textoComentario))
     },
     list: (urlPerfil) => {
       dispatch(TimeLineApi.loadFotos(urlPerfil));
