@@ -1,6 +1,8 @@
 // Dependencies
 import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
+import { connect } from 'react-redux';
+
 
 // API
 import TimeLineApi from '../stores/TimeLineApi';
@@ -9,10 +11,10 @@ import TimeLineApi from '../stores/TimeLineApi';
 import FotoItem from './FotoItem';
 
 class TimeLine extends Component {
+
   constructor(props) {
     super(props);
     this.login = this.props.login;
-    this.state = { fotos: [] };
   }
 
   LoadFotos() {
@@ -25,25 +27,11 @@ class TimeLine extends Component {
       url = `http://localhost:8080/api/public/fotos/${this.login}`;
     }
 
-    this.props.store.dispatch(TimeLineApi.loadFotos(url));
-  }
-
-  like(fotoId) {
-    this.props.store.dispatch(TimeLineApi.like(fotoId));
-  }
-
-  saveComment(comment, fotoId) {
-    this.props.store.dispatch(TimeLineApi.saveComment(comment, fotoId));
+    this.props.list(url);
   }
 
   componentDidMount() {
     this.LoadFotos();
-  }
-
-  componentWillMount() {
-    this.props.store.subscribe(() => {
-      this.setState({ fotos: this.props.store.getState().timeline });
-    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,8 +50,8 @@ class TimeLine extends Component {
             transitionEnterTimeout={500}
             transitionLeaveTimeout={300}>
             {
-              this.state.fotos.map((foto, i) =>
-                <FotoItem key={i} foto={foto} like={this.like.bind(this)} saveComment={this.saveComment.bind(this)} />
+              this.props.fotos.map((foto, i) =>
+                <FotoItem key={i} foto={foto} like={this.props.like} saveComment={this.props.comenta} />
               )
             }
           </ReactCSSTransitionGroup>
@@ -73,4 +61,25 @@ class TimeLine extends Component {
   }
 }
 
-export default TimeLine;
+const mapStateToProps = state => {
+  return { fotos: state.timeline }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    like: (fotoId) => {
+      dispatch(TimeLineApi.like(fotoId));
+    },
+    saveComment: (fotoId, textoComentario) => {
+      dispatch(TimeLineApi.comenta(fotoId, textoComentario))
+    },
+    list: (urlPerfil) => {
+      dispatch(TimeLineApi.loadFotos(urlPerfil));
+    }
+
+  }
+}
+
+const TimelineContainer = connect(mapStateToProps, mapDispatchToProps)(TimeLine);
+
+export default TimelineContainer;

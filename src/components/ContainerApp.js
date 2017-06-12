@@ -4,6 +4,8 @@ import thunkMiddleware from 'redux-thunk';
 import { timeline } from '../reducers/timeline';
 import { notification } from '../reducers/header';
 
+// import PropTypes from 'prop-types';
+
 import TimeLine from './TimeLine';
 import Header from './Header';
 
